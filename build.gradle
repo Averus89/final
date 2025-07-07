@@ -13,17 +13,18 @@ dependencies {
     implementation 'io.quarkus:quarkus-rest-jackson'
     implementation 'io.quarkiverse.langchain4j:quarkus-langchain4j-openai:1.0.0'
     implementation 'io.quarkus:quarkus-arc'
-    implementation 'io.quarkus:quarkus-redis-client'
     implementation 'dev.langchain4j:langchain4j-pgvector:1.1.0-beta7'
     implementation 'dev.langchain4j:langchain4j-cohere:1.0.1-beta6'
     implementation 'dev.langchain4j:langchain4j-qdrant:1.0.1-beta6'
     implementation 'dev.langchain4j:langchain4j-azure-open-ai:1.1.0-rc1'
     implementation("com.azure:azure-ai-openai:1.0.0-beta.12")
     implementation("com.azure:azure-identity:1.13.3")
+    implementation("com.pgvector:pgvector:0.1.6")
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation 'io.quarkus:quarkus-container-image-docker'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.32'

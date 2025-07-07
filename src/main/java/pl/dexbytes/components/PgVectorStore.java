@@ -1,41 +1,33 @@
 package pl.dexbytes.components;
 
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import dev.langchain4j.store.embedding.pgvector.PgVectorEmbeddingStore;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 
-/**
- * jdbc:postgresql://iotdocumentationanalysispgvector.postgres.database.azure.com:5432/postgres?user=iotadmin&password={your_password}&sslmode=require
- */
 @Singleton
-public class PgVectorStore {
+@Named("pgvector")
+public class PgVectorStore implements EmbeddingTextStore {
     EmbeddingStore<TextSegment> pgVectorStore;
 
-    public PgVectorStore() {
-        pgVectorStore = PgVectorEmbeddingStore.builder()
-                // Connection and table parameters
-                .host(System.getenv("AZURE_PG_URL"))
-                .port(5432)
-                .database(System.getenv("AZURE_PG_DATABASE"))
-                .user(System.getenv("AZURE_PG_USERNAME"))
-                .password(System.getenv("AZURE_PG_PASSWORD"))
-                .table(System.getenv("AZURE_PG_TABLE"))
+    public PgVectorStore(EmbeddingModel embeddingModel) {
+        pgVectorStore = new PgHalfvecEmbeddingStore(
+                System.getenv("AZURE_PG_URL"),
+                5432,
+                System.getenv("AZURE_PG_USERNAME"),
+                System.getenv("AZURE_PG_PASSWORD"),
+                System.getenv("AZURE_PG_DATABASE"),
+                System.getenv("AZURE_PG_TABLE"),
+                embeddingModel.dimension(),
+                true,
+                true,
+                false
+        );
+    }
 
-                // Embedding dimension
-                .dimension(embeddingModel.dimension())      // Required: Must match the embedding model’s output dimension
-
-                // Indexing and performance options
-                .useIndex(true)                             // Enable IVFFlat index
-                .indexListSize(100)                         // Number of lists for IVFFlat index
-
-                // Table creation options
-                .createTable(true)                          // Automatically create the table if it doesn’t exist
-                .dropTableFirst(false)                      // Don’t drop the table first (set to true if you want a fresh start)
-
-                // Metadata storage format
-                .metadataStorageConfig(MetadataStorageConfig.combinedJsonb()) // Store metadata as a combined JSONB column
-
-                .build();
+    @Override
+    public EmbeddingStore<TextSegment> getStore() {
+        return pgVectorStore;
     }
 }
