@@ -24,6 +24,7 @@ public class ChatService {
                 .apiKey(System.getenv("AZURE_AI_API_KEY"))
                 .endpoint(System.getenv("AZURE_AI_BASE_URL"))
                 .deploymentName("gpt-4.1")
+                .logRequestsAndResponses(true)
                 .build();
 
         assistant = AiServices.builder(Assistant.class)

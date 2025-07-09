@@ -12,6 +12,7 @@ public class EmbeddingConfig {
                 .apiKey(System.getenv("AZURE_AI_API_KEY"))
                 .endpoint(System.getenv("AZURE_AI_BASE_URL"))
                 .deploymentName("text-embedding-3-large")
+                .logRequestsAndResponses(true)
                 .build();
     }
 }
