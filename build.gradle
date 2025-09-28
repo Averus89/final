@@ -17,6 +17,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-opentelemetry'
     implementation("io.quarkus:quarkus-logging-json")
     implementation 'dev.langchain4j:langchain4j-pgvector:1.1.0-beta7'
+    implementation 'dev.langchain4j:langchain4j-onnx-scoring:1.1.0-beta7'
     implementation 'dev.langchain4j:langchain4j-cohere:1.0.1-beta6'
     implementation 'dev.langchain4j:langchain4j-qdrant:1.0.1-beta6'
     implementation 'dev.langchain4j:langchain4j-azure-open-ai:1.1.0-rc1'

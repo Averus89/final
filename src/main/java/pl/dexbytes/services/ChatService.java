@@ -19,17 +19,27 @@ public class ChatService {
 
     @PostConstruct
     public void init() {
-        // Initialize assistant - this must be done after injection
-        ChatModel chatModel = AzureOpenAiChatModel.builder()
+        assistant = AiServices.builder(Assistant.class)
+                .chatModel(getGpt41())
+                .retrievalAugmentor(retriever.get())
+                .build();
+    }
+
+    public static ChatModel getGpt41() {
+        return AzureOpenAiChatModel.builder()
                 .apiKey(System.getenv("AZURE_AI_API_KEY"))
                 .endpoint(System.getenv("AZURE_AI_BASE_URL"))
                 .deploymentName("gpt-4.1")
                 .logRequestsAndResponses(true)
                 .build();
+    }
 
-        assistant = AiServices.builder(Assistant.class)
-                .chatModel(chatModel)
-                .retrievalAugmentor(retriever.get())
+    public static ChatModel getGpt41Mini() {
+        return AzureOpenAiChatModel.builder()
+                .apiKey(System.getenv("AZURE_AI_API_KEY"))
+                .endpoint(System.getenv("AZURE_AI_BASE_URL"))
+                .deploymentName("gpt-4.1-mini")
+                .logRequestsAndResponses(true)
                 .build();
     }
 
